@@ -53,21 +53,24 @@ To get started with the project, follow these steps:
 
 ## Folder Structure
 
+```
 react-form-assignment/
 ├── public/
-│ └── index.html
+│   └── index.html
 ├── src/
-│ ├── assets/
-│ │ └── img1.jpg
-│ ├── components/
-│ │ └── App.js
-│ ├── redux/
-│ │ ├── formSlice.js
-│ │ └── store.js
-│ └── index.js
+│   ├── assets/
+│   │   └── img1.jpg
+│   ├── components/
+│   │   └── App.js
+│   ├── redux/
+│   │   ├── formSlice.js
+│   │   └── store.js
+│   └── index.js
 ├── .gitignore
 ├── package.json
 └── README.md
+```
+
 
 
 ## Author : 
