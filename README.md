@@ -27,8 +27,7 @@ To get started with the project, follow these steps:
 
 1. Clone the repository to your local machine:
 
-# git clone https://github.com/MANOJPATIL143/React-Form-Using-AntD-And-Redux-Redux-ToolKit
-
+# git clone https://github.com/MANOJPATIL143/React-Form-Using-AntD-And-Redux-Redux-ToolKit.git
 
 2. Install dependencies:
    npm install
