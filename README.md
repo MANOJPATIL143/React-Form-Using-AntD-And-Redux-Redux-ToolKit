@@ -27,8 +27,7 @@ To get started with the project, follow these steps:
 
 1. Clone the repository to your local machine:
 
-# git clone https://github.com/MANOJPATIL143/React-Form-Using-AntD-And-Redux-Redux-ToolKit
-
+# git clone https://github.com/MANOJPATIL143/React-Form-Using-AntD-And-Redux-Redux-ToolKit.git
 
 2. Install dependencies:
    npm install
@@ -53,21 +52,24 @@ To get started with the project, follow these steps:
 
 ## Folder Structure
 
+```
 react-form-assignment/
 ├── public/
-│ └── index.html
+│   └── index.html
 ├── src/
-│ ├── assets/
-│ │ └── img1.jpg
-│ ├── components/
-│ │ └── App.js
-│ ├── redux/
-│ │ ├── formSlice.js
-│ │ └── store.js
-│ └── index.js
+│   ├── assets/
+│   │   └── img1.jpg
+│   ├── components/
+│   │   └── App.js
+│   ├── redux/
+│   │   ├── formSlice.js
+│   │   └── store.js
+│   └── index.js
 ├── .gitignore
 ├── package.json
 └── README.md
+```
+
 
 
 ## Author : 
