@@ -24,11 +24,17 @@ const App = () => {
 
   // Handle form submission
   const handleSubmit = values => {
-    // You can add additional validation here if needed
+    
     dispatch(saveFormData(values)); // Dispatch action to save form data to Redux store
     console.log('Received values:', values);
     message.success('Form submitted successfully!');
     form.resetFields(); // Clear form fields after submission
+    setAgree(false); // Reset the checkbox state to unchecked
+  };
+
+  // Handle form reset
+  const handleReset = () => {
+    form.resetFields(); // Clear form fields
     setAgree(false); // Reset the checkbox state to unchecked
   };
 
@@ -46,13 +52,12 @@ const App = () => {
     }}>
       <h1 style={{ color: 'white', backgroundColor: 'black', borderRadius: '50%', padding: '20px' }}>Simple Form</h1>
 
-
       <Form form={form} onFinish={handleSubmit} layout="vertical">
         <Form.Item
           label={<span style={{ color: 'white', fontWeight: 'bold' }}>Name</span>}
           name="name"
           rules={[{ required: true, message: 'Please input your name!' }]}
-          style={{ width: '100%' }} // Set width to 100% for double width
+          style={{ width: '100%' }} 
         >
           <Input style={{ width: '100%', color: 'black' }} placeholder="Enter your name" />
         </Form.Item>
@@ -63,7 +68,7 @@ const App = () => {
             { required: true, message: 'Please input your phone number!' },
             { pattern: /^[0-9]+$/, message: 'Please enter a valid phone number!' }
           ]}
-          style={{ width: '100%' }} // Set width to 100% for double width
+          style={{ width: '100%' }} 
         >
           <Input style={{ width: '100%', color: 'black' }} placeholder="Enter your phone number" />
         </Form.Item>
@@ -74,25 +79,31 @@ const App = () => {
             { required: true, message: 'Please select your date of birth!' },
             { validator: validateDOB }
           ]}
-          style={{ width: '100%' }} // Set width to 100% for double width
+          style={{ width: '100%' }} 
         >
           <DatePicker style={{ width: '100%' }} />
         </Form.Item>
         <Form.List name="address">
           {(fields, { add, remove }) => (
             <>
-              {fields.map(({ key, name, fieldKey, ...restField }) => (
+              {fields.map(({ key, name, fieldKey, ...restField }, index) => (
                 <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
                   <Form.Item
                     {...restField}
                     name={[name, 'address']}
                     fieldKey={[fieldKey, 'address']}
-                    rules={[{ required: true, message: 'Please input your address!' }]}
+                    rules={[
+                      { required: true, message: 'Please input your address!' },
+                      // Only first address field is required
+                      { required: index === 0, message: 'Please input your address!' }
+                    ]}
                     style={{ width: '100%' }} // Set width to 100% for double width
                   >
                     <Input placeholder="Address" style={{ width: '100%', color: 'black' }} />
                   </Form.Item>
-                  <Button type="dashed" onClick={() => remove(name)} style={{ width: '40px' }}>-</Button>
+                  {index === 0 ? null : (
+                    <Button type="dashed" onClick={() => remove(name)} style={{ width: '40px' }}>-</Button>
+                  )}
                 </Space>
               ))}
               <Form.Item>
@@ -109,7 +120,7 @@ const App = () => {
         <Form.Item>
           <Button type="primary" htmlType="submit" disabled={!agree}>Submit</Button>
           <span style={{ marginLeft: '10px' }} />
-          <Button type="default" htmlType="reset" onClick={() => form.resetFields()}>Reset</Button>
+          <Button type="default" htmlType="button" onClick={handleReset}>Reset</Button>
         </Form.Item>
       </Form>
     </div>
