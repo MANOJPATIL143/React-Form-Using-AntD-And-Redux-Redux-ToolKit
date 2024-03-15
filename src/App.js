@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Input, Button, DatePicker, Space, message, Checkbox } from 'antd';
 import { saveFormData } from './redux/formSlice';
@@ -24,7 +24,6 @@ const App = () => {
 
   // Handle form submission
   const handleSubmit = values => {
-    
     dispatch(saveFormData(values)); // Dispatch action to save form data to Redux store
     console.log('Received values:', values);
     message.success('Form submitted successfully!');
@@ -37,6 +36,15 @@ const App = () => {
     form.resetFields(); // Clear form fields
     setAgree(false); // Reset the checkbox state to unchecked
   };
+
+  // Function to initialize the form with one address input
+  const initializeForm = () => {
+    form.setFieldsValue({ address: [{ address: '' }] }); // Set initial value for the address field
+  };
+
+  useEffect(() => {
+    initializeForm(); // Call the initializeForm function when the component mounts
+  }, []); // Empty dependency array ensures it runs only once after mounting
 
   return (
     <div style={{ 
@@ -87,26 +95,26 @@ const App = () => {
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, fieldKey, ...restField }, index) => (
-                <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                <Space key={key} style={{ display: 'flex', marginBottom: 8, }} align="baseline">
+                  {/* Label for address input field */}
                   <Form.Item
+                    label={<span style={{ color: 'white', fontWeight: 'bold' }}>Address {index + 1}</span>} // Dynamically set the label based on the index
                     {...restField}
                     name={[name, 'address']}
                     fieldKey={[fieldKey, 'address']}
                     rules={[
-                      { required: true, message: 'Please input your address!' },
-                      // Only first address field is required
-                      { required: index === 0, message: 'Please input your address!' }
+                      { required: true, message: 'Please input your address!' }
                     ]}
-                    style={{ width: '100%' }} // Set width to 100% for double width
+                    style={{ width: '(100% - 80)' }} // Adjusting width to accommodate the button
                   >
-                    <Input placeholder="Address" style={{ width: '100%', color: 'black' }} />
+                    <Input placeholder={`Address ${index + 1}`} style={{ width: '100%', color: 'black' }} />
                   </Form.Item>
                   {index === 0 ? null : (
-                    <Button type="dashed" onClick={() => remove(name)} style={{ width: '40px' }}>-</Button>
+                    <Button type="dashed" onClick={() => remove(name)} style={{ width: '40px',  }}>-</Button>
                   )}
                 </Space>
               ))}
-              <Form.Item>
+              <Form.Item style={{ width: '100%' }}>
                 <Button type="dashed" onClick={() => add()} style={{ width: '100%' }}>+ Add Address</Button>
               </Form.Item>
             </>
