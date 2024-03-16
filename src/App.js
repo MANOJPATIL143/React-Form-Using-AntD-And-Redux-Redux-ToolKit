@@ -4,7 +4,6 @@ import { Form, Input, Button, DatePicker, Space, message, Checkbox } from 'antd'
 import { saveFormData } from './redux/formSlice';
 import backgroundImage from './assets/img1.jpg';
 
-const { RangePicker } = DatePicker;
 
 const App = () => {
   const [form] = Form.useForm();
@@ -25,7 +24,7 @@ const App = () => {
   // Handle form submission
   const handleSubmit = values => {
     dispatch(saveFormData(values)); // Dispatch action to save form data to Redux store
-    console.log('Received values:', values);
+    console.log('Form values submitted:', values); // Log form values to console
     message.success('Form submitted successfully!');
     form.resetFields(); // Clear form fields after submission
     setAgree(false); // Reset the checkbox state to unchecked
@@ -60,34 +59,34 @@ const App = () => {
     }}>
       <h1 style={{ color: 'white', backgroundColor: 'black', borderRadius: '50%', padding: '20px' }}>Simple Form</h1>
 
-      <Form form={form} onFinish={handleSubmit} layout="vertical">
+      <Form form={form} onFinish={handleSubmit} layout="vertical" style={{ maxWidth: '400px', width: '100%' }}>
         <Form.Item
-          label={<span style={{ color: 'white', fontWeight: 'bold' }}>Name</span>}
+          label={<span style={{ color: 'white', fontWeight: 'bold', width: '100px', display: 'inline-block' }}>Name</span>}
           name="name"
           rules={[{ required: true, message: 'Please input your name!' }]}
-          style={{ width: '100%' }} 
+          style={{ width: '100%', marginBottom: 16 }} 
         >
           <Input style={{ width: '100%', color: 'black' }} placeholder="Enter your name" />
         </Form.Item>
         <Form.Item
-          label={<span style={{ color: 'white', fontWeight: 'bold' }}>Phone Number</span>}
+          label={<span style={{ color: 'white', fontWeight: 'bold', width: '100px', display: 'inline-block' }}>Phone Number</span>}
           name="phoneNumber"
           rules={[
             { required: true, message: 'Please input your phone number!' },
             { pattern: /^[0-9]+$/, message: 'Please enter a valid phone number!' }
           ]}
-          style={{ width: '100%' }} 
+          style={{ width: '100%', marginBottom: 16 }} 
         >
           <Input style={{ width: '100%', color: 'black' }} placeholder="Enter your phone number" />
         </Form.Item>
         <Form.Item
-          label={<span style={{ color: 'white', fontWeight: 'bold' }}>Date of Birth</span>}
+          label={<span style={{ color: 'white', fontWeight: 'bold', width: '100px', display: 'inline-block' }}>Date of Birth</span>}
           name="dob"
           rules={[
             { required: true, message: 'Please select your date of birth!' },
             { validator: validateDOB }
           ]}
-          style={{ width: '100%' }} 
+          style={{ width: '100%', marginBottom: 16 }} 
         >
           <DatePicker style={{ width: '100%' }} />
         </Form.Item>
@@ -95,32 +94,34 @@ const App = () => {
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, fieldKey, ...restField }, index) => (
-                <Space key={key} style={{ display: 'flex', marginBottom: 8, }} align="baseline">
+                <Space key={key} style={{ display: 'flex', marginBottom: 16 }} align="baseline">
                   {/* Label for address input field */}
                   <Form.Item
-                    label={<span style={{ color: 'white', fontWeight: 'bold' }}>Address {index + 1}</span>} // Dynamically set the label based on the index
+                    label={<span style={{ color: 'white', fontWeight: 'bold', width: '100px', display: 'inline-block' }}>Address</span>}
                     {...restField}
                     name={[name, 'address']}
                     fieldKey={[fieldKey, 'address']}
                     rules={[
-                      { required: true, message: 'Please input your address!' }
+                      { required: false, message: 'Please input your address!' }
                     ]}
-                    style={{ width: '(100% - 80)' }} // Adjusting width to accommodate the button
+                    style={{ width: 'calc(100% - -218px)', position: 'relative', marginBottom: 24 }}
                   >
-                    <Input placeholder={`Address ${index + 1}`} style={{ width: '100%', color: 'black' }} />
+                    <Input placeholder={`Address ${index + 1}`} style={{ width: '100%', color: 'black', }} />
+                    {index > 0 && ( // Show remove button only from the second address box
+                      <Button type="dashed" onClick={() => remove(name)} style={{ position: 'absolute', right: 0, top: 0, padding: '3px 10px', fontSize: '12px' }}>-</Button>
+                    )}
                   </Form.Item>
-                  {index === 0 ? null : (
-                    <Button type="dashed" onClick={() => remove(name)} style={{ width: '40px',  }}>-</Button>
-                  )}
                 </Space>
               ))}
-              <Form.Item style={{ width: '100%' }}>
+              
+              <Form.Item style={{ width: '100%', marginBottom: 15 }}>
                 <Button type="dashed" onClick={() => add()} style={{ width: '100%' }}>+ Add Address</Button>
               </Form.Item>
             </>
           )}
         </Form.List>
-        <Form.Item>
+
+        <Form.Item style={{ marginBottom: 16 }}>
           <Checkbox checked={agree} onChange={e => setAgree(e.target.checked)}>
             I have read the agreement
           </Checkbox>
