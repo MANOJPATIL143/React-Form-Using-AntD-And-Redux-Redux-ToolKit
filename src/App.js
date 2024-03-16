@@ -24,7 +24,7 @@ const App = () => {
   // Handle form submission
   const handleSubmit = values => {
     dispatch(saveFormData(values)); // Dispatch action to save form data to Redux store
-    console.log('Form values submitted:', values); // Log form values to console
+    console.log('Form values submitted:', JSON.stringify(values)); // Log form values to console
     message.success('Form submitted successfully!');
     form.resetFields(); // Clear form fields after submission
     setAgree(false); // Reset the checkbox state to unchecked
